@@ -1,4 +1,4 @@
-<ion-tabs>
+<!-- <ion-tabs>
 
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="tab1">
@@ -10,6 +10,14 @@
       <ion-icon name="ellipse"></ion-icon>
       <ion-label>Stations</ion-label>
     </ion-tab-button>
+    <ion-tab-button tab="tab2">
+      <ion-icon name="ellipse"></ion-icon>
+      <ion-label>Stations</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="tab2">
+      <ion-icon name="ellipse"></ion-icon>
+      <ion-label>Stations</ion-label>
+    </ion-tab-button>
 
     <ion-tab-button tab="tab3">
       <ion-icon name="square"></ion-icon>
@@ -17,4 +25,55 @@
     </ion-tab-button>
   </ion-tab-bar>
 
-</ion-tabs>
+</ion-tabs> -->
+
+<!-- <super-tabs >
+  <super-tabs-toolbar slot="bottom">
+    <super-tab title="First page">
+      <ion-label>awdawad</ion-label>
+      
+    </super-tab>
+    <super-tab title="First page">
+      <ion-label>awdawad</ion-label>
+      <ion-nav [root]="tab2" [rootParams]="{ hello: 'world' }" ></ion-nav>
+    </super-tab>
+    
+     
+  </super-tabs-toolbar>
+ 
+</super-tabs> -->
+
+<super-tabs (tabChange)="tabChange($event)">
+  <super-tabs-toolbar slot="bottom" color="light">
+    <super-tab-button>
+     
+      <ion-label>Home</ion-label>   
+       
+    </super-tab-button>
+    <super-tab-button>
+       
+      <ion-label>Stations</ion-label>    
+    </super-tab-button>
+    <super-tab-button>
+       
+      <ion-label>Me</ion-label>    
+    </super-tab-button>
+    <!-- <super-tab-button>
+     
+      <ion-label>Page #3</ion-label>    
+    </super-tab-button> -->
+  </super-tabs-toolbar>
+  <super-tabs-container  swipe-enabled = "false"  >
+    <super-tab>
+      <ion-nav [root]="tab1" [rootParams]="{ hello: 'world' }"></ion-nav>
+    </super-tab>
+    <super-tab>
+      <ion-nav [root]="tab2" [rootParams]="{ hello: 'world' }"></ion-nav>
+    </super-tab>
+    <!-- <super-tab>
+      <ion-content>
+        Page #3
+      </ion-content>
+    </super-tab> -->
+  </super-tabs-container>
+</super-tabs>

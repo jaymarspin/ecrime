@@ -6,13 +6,14 @@ import { FormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { TabsPage } from './tabs.page';
-
+import { SuperTabsModule } from '@ionic-super-tabs/angular';
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    TabsPageRoutingModule
+    TabsPageRoutingModule,
+    SuperTabsModule
   ],
   declarations: [TabsPage]
 })
