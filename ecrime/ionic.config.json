@@ -1,0 +1,7 @@
+{
+  "name": "ecrime",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
