@@ -42,7 +42,11 @@
   </super-tabs-toolbar>
  
 </super-tabs> -->
-
+<!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="arrow-forward-circle"></ion-icon>
+  </ion-fab-button>
+</ion-fab> -->
 <super-tabs (tabChange)="tabChange($event)">
   <super-tabs-toolbar slot="bottom" color="light">
     <super-tab-button>
@@ -52,11 +56,15 @@
     </super-tab-button>
     <super-tab-button>
        
-      <ion-label>Stations</ion-label>    
+      <ion-label>Report a crime</ion-label>    
     </super-tab-button>
     <super-tab-button>
        
-      <ion-label>Me</ion-label>    
+      <ion-label>Info Kit</ion-label>    
+    </super-tab-button>
+    <super-tab-button>
+       
+      <ion-label>Family</ion-label>    
     </super-tab-button>
     <!-- <super-tab-button>
      
@@ -65,10 +73,13 @@
   </super-tabs-toolbar>
   <super-tabs-container  swipe-enabled = "false"  >
     <super-tab>
+      <ion-nav [root]="tab2" [rootParams]="{ hello: 'world' }"></ion-nav>
+    </super-tab>
+    <super-tab>
       <ion-nav [root]="tab1" [rootParams]="{ hello: 'world' }"></ion-nav>
     </super-tab>
     <super-tab>
-      <ion-nav [root]="tab2" [rootParams]="{ hello: 'world' }"></ion-nav>
+      <ion-nav [root]="tab3" [rootParams]="{ hello: 'world' }"></ion-nav>
     </super-tab>
     <!-- <super-tab>
       <ion-content>

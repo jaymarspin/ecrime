@@ -10,6 +10,7 @@ import { Tab3Page } from '../tab3/tab3.page'
 export class TabsPage {
   tab1 = Tab1Page
   tab2 = Tab2Page
+  tab3 = Tab3Page
 
   config:any = {
     sideMenu: 'left',

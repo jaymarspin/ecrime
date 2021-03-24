@@ -22,9 +22,9 @@ export class Tab1Page implements OnInit {
   constructor(public loadingController: LoadingController) {}
 
   ngOnInit(){
-    this.leafletMap().then(() =>{
-      this.locator()
-    })
+    // this.leafletMap().then(() =>{
+    //   this.locator()
+    // })
   }
 
   locator(){
