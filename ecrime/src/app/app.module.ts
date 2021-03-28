@@ -10,10 +10,13 @@ import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { Camera } from '@ionic-native/camera/ngx';
 import { HttpModule} from '@angular/http';
 import { HttpClient,HttpClientModule } from '@angular/common/http'
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule,SuperTabsModule.forRoot(), IonicModule.forRoot(), AppRoutingModule,HttpModule,HttpClientModule],
+  imports: [BrowserModule,SuperTabsModule.forRoot(), IonicModule.forRoot(), AppRoutingModule,HttpModule,HttpClientModule,FormsModule,CommonModule,ReactiveFormsModule],
   providers: [Camera,HttpClient,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }],
   bootstrap: [AppComponent],
 })

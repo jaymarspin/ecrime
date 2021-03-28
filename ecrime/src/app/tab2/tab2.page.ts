@@ -1,17 +1,33 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import {ReportcrimeFormComponent} from '../components/reportcrime-form/reportcrime-form.component'
+import { RequestService} from '../services/request.service'
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit{
+  loading:any
+  myreports:any
+  constructor(public request:RequestService,public popoverController: PopoverController) {
+    this.myreports = Array()
+  
+  }
 
-  constructor(public popoverController: PopoverController) {}
-
+  getCrimes(){
+    this.request.getData("get-crimes.php").subscribe(res =>{
+      console.log(res)
+      let result = res.json()
+      for(var i =0;i < result.length;i++){
+        this.myreports.push(result[i])
+      }
+    })
+  }
+ 
 
   async presentPopover(ev: any) {
+    console.log(ev)
     const popover = await this.popoverController.create({
       component: ReportcrimeFormComponent,
       cssClass: 'my-custom-class',
@@ -20,5 +36,9 @@ export class Tab2Page {
     });
     return await popover.present();
   }
+ ngOnInit(){
+   this.getCrimes()
+ }
+
 
 }

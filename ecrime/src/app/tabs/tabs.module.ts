@@ -13,7 +13,7 @@ import { SuperTabsModule } from '@ionic-super-tabs/angular';
     CommonModule,
     FormsModule,
     TabsPageRoutingModule,
-    SuperTabsModule
+    SuperTabsModule, 
   ],
   declarations: [TabsPage]
 })

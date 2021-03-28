@@ -10,9 +10,11 @@
       <ion-item>
         <ion-label position="floating">Select Crime</ion-label>
       
-        <ion-select placeholder="Select One">
-          <ion-select-option value="f">Female</ion-select-option>
-          <ion-select-option value="m">Male</ion-select-option>
+        <ion-select placeholder="Select One" [(ngModel)]="crimetype">
+          <ion-select-option value="thief">Theif</ion-select-option>
+          <ion-select-option value="Attempted murder">Attempted murder</ion-select-option>
+          <ion-select-option value="Gambling">Gambling</ion-select-option>
+          <ion-select-option value="Trespassing">Trespassing</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-col>
@@ -21,8 +23,7 @@
     <ion-col size="12">
       <ion-item>
         <ion-label position="floating">Describe the crime</ion-label>
-        <ion-textarea 
-    value="Ionic enables developers to build performant, high-quality mobile apps.">
+        <ion-textarea [(ngModel)]="description" >
   </ion-textarea>
       </ion-item>
     </ion-col>
