@@ -4,6 +4,11 @@ import { RequestService } from '../../services/request.service'
 import { LoadingController } from '@ionic/angular';
 import { GlobalService} from '../../services/global.service'
 import { AlertController } from '@ionic/angular';
+import { Base64 } from '@ionic-native/base64/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+
 @Component({
   selector: 'app-reportcrime-form',
   templateUrl: './reportcrime-form.component.html',
@@ -13,7 +18,10 @@ export class ReportcrimeFormComponent implements OnInit {
   loading:any
   crimetype:any
   description:any
-  constructor(public alertController: AlertController,public global: GlobalService,public loadingController: LoadingController,private camera: Camera,public request: RequestService) { }
+  base64image:any
+  imgsrc:any
+  uri:any
+  constructor(private photoViewer: PhotoViewer,private webview: WebView,private filePath: FilePath,private base64: Base64,public alertController: AlertController,public global: GlobalService,public loadingController: LoadingController,private camera: Camera,public request: RequestService) { }
 
   ngOnInit() {}
 
@@ -28,11 +36,29 @@ export class ReportcrimeFormComponent implements OnInit {
     this.camera.getPicture(options).then((imageData) => {
      // imageData is either a base64 encoded string or a file URI
      // If it's base64 (DATA_URL):
-     let base64Image = 'data:image/jpeg;base64,' + imageData;
-     console.log(base64Image)
+     this.uri = imageData
+     this.filePath.resolveNativePath(imageData)
+  .then(filePath =>{
+    console.log(filePath)
+    
+
+    this.imgsrc = this.webview.convertFileSrc(filePath)
+  })
+  .catch(err => console.log(err));
+     
+     this.base64.encodeFile(imageData).then((base64File: string) => {
+      
+      this.base64image = base64File;
+    }, (err) => {
+      console.log(err);
+    });
     }, (err) => {
      // Handle error
     });
+  }
+
+  viewphoto(){
+    this.photoViewer.show(this.uri);
   }
 
   submit(){
@@ -41,7 +67,8 @@ export class ReportcrimeFormComponent implements OnInit {
       crime_type: this.crimetype,
       description: this.description,
       lat: this.global.address.lat,
-      lng: this.global.address.lng
+      lng: this.global.address.lng,
+      base64image: this.base64image
 
     }
     this.request.postData("add-crime.php",data).subscribe(res =>{
@@ -76,6 +103,7 @@ export class ReportcrimeFormComponent implements OnInit {
 
    
   }
+ 
 
 
 

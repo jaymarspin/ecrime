@@ -3,6 +3,10 @@ import * as l from 'leaflet';
 import { LoadingController } from '@ionic/angular';
 import { GlobalService} from '../services/global.service'
 import { RequestService} from '../services/request.service'
+import { AlertController } from '@ionic/angular';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -22,110 +26,197 @@ export class Tab1Page implements OnInit {
   map: l.Map;
   loading:any
   crimeresult:any
-  constructor(public request: RequestService,public global: GlobalService,public loadingController: LoadingController) {
-    this.crimeresult = Array()
+  stationresult:any
+  constructor(private photoViewer: PhotoViewer,private callNumber: CallNumber,private geolocation: Geolocation,public alertController: AlertController,public request: RequestService,public global: GlobalService,public loadingController: LoadingController) {
+     
   }
 
   ngOnInit(){
-   
-     
+      localStorage.setItem("open","0")
+      var open = (parseInt(localStorage.getItem("open")) + 1)
+
+      if(open <= 5){
+        localStorage.setItem("open",""+open)
+        this.presentAlert("here is the crime mapping")
+        console.log(open)
+      }
+      
   
   }
 
-  getCrimes(){
-    this.request.getData("get-crimes.php").subscribe(res =>{
-       let result = res.json()
-       
-       for(var i =0;i < result.length;i++){
-        this.markerdroper(result[i])
-       }
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Info',
+      subHeader: '',
+      message: message,
+      buttons: ['OK']
+    });
 
-    })
+    await alert.present();
   }
-  c:number = 0
-  markerdroper(crime){
-     this.c+=0.001
-     
-     console.log(this.global.address)
-     l.marker([crime.lat,crime.lng],{icon: this.customIcon,id: crime.id,crime: crime}).addTo(this.map).bindPopup("awdawd").on('click', (e) =>{
-      console.log(e)
 
-      console.log(e.target.options.crime)
+  getCrimes(load){
+    if(load == 0){
+      this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng).subscribe(res =>{
+        console.log(res)
+         let result = res.json()
+         this.loading.dismiss()
+         for(var i =0;i < result.length;i++){
+          this.markerdroper(result[i])
+         }
+  
+      },err =>{
+        this.presentAlert(err)
+        this.loading.dismiss()
+      })
+    }else{
+      this.presentLoading("loading...").then(() =>{
+       
+        this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng).subscribe(res =>{
+          console.log(res.json())
+           let result = res.json()
+           this.loading.dismiss()
+           for(var i =0;i < result.length;i++){
+            this.markerdroper(result[i])
+           }
+    
+        },err =>{
+          this.presentAlert(err)
+          this.loading.dismiss()
+        })
+      })
+    }
+    
+  }
+
+  markerdroper(crime){
+     
+     
+      
+     l.marker([crime.lat,crime.lng],{icon: this.customIcon,id: crime.id,crime: crime}).addTo(this.map).on('click', (e) =>{
+      
+      delete(this.stationresult)
+       console.log(e.target.options.crime)
+      this.crimeresult = e.target.options.crime
      })
-     
-     
-     
+
+  }
+
+
+  policemarker(station){
+    l.marker([station.lat,station.lng],{icon: this.policeIcon,id: station.id,station: station}).addTo(this.map).on('click', (e) =>{
+      
+      delete(this.crimeresult)
+       
+      this.stationresult = e.target.options.station
+     })
+  }
+
+  getStations(){
+    this.presentLoading("loading...").then(() =>{
+      
+      this.request.getData("get-stations.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng).subscribe(res =>{
+        console.log(res)
+         let result = res.json()
+         this.loading.dismiss()
+         for(var i =0;i < result.length;i++){
+          this.policemarker(result[i])
+         }
+  
+      },err =>{
+        this.presentAlert(err)
+        this.loading.dismiss()
+      })
+    })
     
   }
 
   customIcon = l.icon({
-    iconUrl: '../../../../assets/mapmarker/marker-icon.png',
-    shadowUrl: '../../../../assets/mapmarker/marker-shadow.png',
-    
+    iconUrl: '../../../../assets/mapmarker/clipart1237981.png',
+    // shadowUrl: '../../../../assets/mapmarker/marker-shadow.png',
+    iconSize:     [38, 45],
      
-    popupAnchor: [10, 0]
+    popupAnchor: [0, 0]
     });
+
+
+    policeIcon = l.icon({
+      iconUrl: '../../../../assets/mapmarker/police.png',
+      // shadowUrl: '../../../../assets/mapmarker/marker-shadow.png',
+      iconSize:     [38, 45],
+       
+      popupAnchor: [0, 0]
+      });
    
   async locator(){
     this.presentLoading("please wait we're locating you").then(() => {
 
     
-       
-        
-  
-      
+      this.geolocation.getCurrentPosition().then((resp) => {
+        // resp.coords.latitude
+        // resp.coords.longitude
+        this.global.address = {
+          lat: resp.coords.latitude,
+          lng: resp.coords.longitude
+        }
 
-        this.map.locate({
-          setView: true ,
-          
-          maxZoom: 20
-        }).on('locationfound', e =>{
-          this.global.address = {
-            lat: e.latitude,
-            lng: e.longitude
-          }
-  
-          this.loading.dismiss()
-      
-        //  this.request.lat = e.latitude
-        //  this.request.lng = e.longitude
-        
-          
-          
+        this.loading.dismiss()
     
-            
-            
-           l.circle([this.global.address.lat, this.global.address.lng],{
-              radius: 10000,
-              stroke: true,
-              color: 'black',
-              opacity: 1,
-              weight: 1,
-              fill: true,
-              fillColor: "green",
-              fillOpacity: 0.3
-             }).addTo(this.map).bindPopup("Here where you are right now");
-            //  l.marker([this.global.address.lat, this.global.address.lng],{icon: this.customIcon}).addTo(this.map).bindPopup("awdawd")
-             this.map.invalidateSize(true) 
-
-             setTimeout(() =>{
-           
-              this.getCrimes()
-            },500)
-            //  l.marker([lat,lng],{icon: this.customIcon}).addTo(this.map).bindPopup("awd555awd")
+      //  this.request.lat = e.latitude
+      //  this.request.lng = e.longitude
+      
+        
+        
   
-            
-            
-              
           
-             
+          
+         l.circle([this.global.address.lat, this.global.address.lng],{
+            radius: 500,
+            stroke: true,
+            color: 'black',
+            opacity: 1,
+            weight: 1,
+            fill: true,
+            fillColor: "green",
+            fillOpacity: 0.3
+           }).addTo(this.map).bindPopup("Here where you are right now");
+          //  l.marker([this.global.address.lat, this.global.address.lng],{icon: this.customIcon}).addTo(this.map).bindPopup("awdawd")
+           this.map.invalidateSize(true) 
+
+           setTimeout(() =>{
+         
+            this.getCrimes(0)
+          },500)
+
+          this.map.setView([this.global.address.lat, this.global.address.lng],16);
+          //  l.marker([lat,lng],{icon: this.customIcon}).addTo(this.map).bindPopup("awd555awd")
+
+          
+          
+            
+        
+           
+
+
+          // this.loadMarkers()
+       }).catch((error) => {
+         console.log('Error getting location', error);
+       });
+        
   
-  
-            // this.loadMarkers()
-        },err =>{
-          alert(err)
-          this.loading.dismiss()
-        })
+      
+
+        // this.map.locate({
+        //   setView: true ,
+          
+        //   maxZoom: 20
+        // }).on('locationfound', e =>{
+          
+        // },err =>{
+        //   alert(err)
+        //   this.loading.dismiss()
+        // })
      
 
       
@@ -158,6 +249,8 @@ export class Tab1Page implements OnInit {
   }
 
   ionViewWillEnter() { 
+    delete(this.crimeresult)
+    delete(this.stationresult)
     
     this.leafletMap().then(() =>{
       this.locator().then(() =>{
@@ -172,6 +265,21 @@ export class Tab1Page implements OnInit {
 
   ionViewWillLeave() {
     this.map.remove();
+  }
+
+  close(){
+    delete(this.crimeresult)
+    delete(this.stationresult)
+  }
+
+  async callstation(number){
+    this.callNumber.callNumber(number, true)
+  .then(res => console.log('Launched dialer!', res))
+  .catch(err => console.log('Error launching dialer', err));
+  }
+
+  viewphoto(url){
+    this.photoViewer.show(this.request.server+url);
   }
   
 

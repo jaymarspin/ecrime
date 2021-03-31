@@ -11,8 +11,99 @@
 
   <div id="mapId" style="width: 100%; height: 100%">
   </div>
-  <div id="mapFeed">
-    
+  <div id="mapFeed" *ngIf="crimeresult || stationresult">
+    <ion-grid *ngIf="crimeresult">
+      <ion-row>
+        <ion-col size="12">
+          <ion-label class="title">
+            {{crimeresult.crime_type}}
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <span class="time">{{crimeresult.timelapse}}</span>
+
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-text>
+            {{crimeresult.description}}
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col size="12">
+          <img (click)="viewphoto(crimeresult.crimephoto.name100)" [src] = "request.server + crimeresult.crimephoto.name50" />
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="9">
+           <ion-label class="distance-wrapper">{{crimeresult.distance}} kilometer</ion-label>
+        </ion-col>
+        <ion-col size="3">
+           <ion-button color="danger" (click)="close()">Close</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid *ngIf="stationresult">
+      <ion-row>
+        <ion-col size="12">
+          <ion-label class="title">
+            {{stationresult.station}}
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-text>
+            {{stationresult.address}}
+          </ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-text>
+            {{stationresult.contact}}
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+           <ion-label class="distance-wrapper">{{stationresult.distance}} kilometer</ion-label>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button color="success" (click)="callstation(stationresult.contact)">Call</ion-button>
+       </ion-col>
+        <ion-col size="3">
+           <ion-button color="danger" (click)="close()">Close</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="action-btn">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3">
+          <ion-button (click)="getCrimes(1)">
+            crimes
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button (click)="getStations()">
+            Stations
+            
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
   <!-- <app-explore-container name="Tab 1 page"></app-explore-container> -->

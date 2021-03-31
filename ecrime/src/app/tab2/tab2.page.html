@@ -10,8 +10,8 @@
   
   <ion-card *ngFor="let item of myreports;index as i">
     <ion-card-header>
-      <ion-card-subtitle>{{item.crime_type}}</ion-card-subtitle>
-      <ion-card-title>Card Title</ion-card-title>
+      <ion-card-subtitle>{{item.timelapse}}</ion-card-subtitle>
+      <ion-card-title>{{item.crime_type}}</ion-card-title>
     </ion-card-header>
   
     <ion-card-content [innerHTML]="item.description">

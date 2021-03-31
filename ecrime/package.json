@@ -22,10 +22,20 @@
     "@angular/router": "~11.2.0",
     "@asymmetrik/ngx-leaflet": "^8.1.0",
     "@capacitor/core": "2.4.7",
+    "@ionic-native/base64": "^5.31.1",
+    "@ionic-native/blinkid": "^5.31.1",
+    "@ionic-native/call-number": "^5.31.1",
     "@ionic-native/camera": "^5.31.1",
     "@ionic-native/core": "^5.31.1",
+    "@ionic-native/document-scanner": "^5.31.1",
+    "@ionic-native/file-path": "^5.31.1",
+    "@ionic-native/geolocation": "^5.31.1",
+    "@ionic-native/ionic-webview": "^5.31.1",
+    "@ionic-native/photo-viewer": "^5.31.1",
+    "@ionic-native/toast": "^5.31.1",
     "@ionic-super-tabs/angular": "^7.0.8",
     "@ionic/angular": "^5.5.2",
+    "cordova-android": "9.0.0",
     "leaflet": "^1.6.0",
     "rxjs": "^6.6.6",
     "rxjs-compat": "^6.6.6",
@@ -43,8 +53,24 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
+    "blinkid-cordova": "^5.10.0",
+    "call-number": "^1.0.1",
     "codelyzer": "^6.0.0",
+    "com-badrit-base64": "^0.2.0",
+    "com-sarriaroman-photoviewer": "^1.2.5",
+    "cordova-plugin-androidx": "^3.0.0",
+    "cordova-plugin-androidx-adapter": "^1.1.3",
     "cordova-plugin-camera": "^5.0.1",
+    "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-document-scanner": "^4.2.6",
+    "cordova-plugin-filepath": "^1.6.0",
+    "cordova-plugin-geolocation": "^4.1.0",
+    "cordova-plugin-ionic-keyboard": "^2.2.0",
+    "cordova-plugin-ionic-webview": "^4.2.1",
+    "cordova-plugin-splashscreen": "^5.0.2",
+    "cordova-plugin-statusbar": "^2.4.2",
+    "cordova-plugin-whitelist": "^1.3.3",
+    "cordova-plugin-x-toast": "^2.7.2",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.2.0",
@@ -61,7 +87,28 @@
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
-      "cordova-plugin-camera": {}
-    }
+      "cordova-plugin-camera": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-geolocation": {
+        "GPS_REQUIRED": "true"
+      },
+      "com-badrit-base64": {},
+      "mx.ferreyra.callnumber": {},
+      "cordova-plugin-filepath": {},
+      "com-sarriaroman-photoviewer": {},
+      "blinkid-cordova": {},
+      "cordova-plugin-document-scanner": {},
+      "cordova-plugin-androidx": {},
+      "cordova-plugin-androidx-adapter": {},
+      "cordova-plugin-x-toast": {}
+    },
+    "platforms": [
+      "android"
+    ]
   }
 }

@@ -24,9 +24,24 @@ ion-label.title{
         color: #ccc;
         transform: translate(0,-50%);
     }
+
+    img{
+        display: block;
+        height: 100%;
+        width: 100%;
+        position: relative;
+
+    }
 }.submit-btn{
     position: relative;
     width: 90%;
     margin: auto;
     display: block;
+}.photo-wrapper{
+    position: relative;
+    height: auto;
+    overflow: hidden;
+    display: block;
+    clear: both;
+    width: 100%;
 }
