@@ -1,0 +1,40 @@
+<ion-header>
+  <!-- <ion-toolbar>
+    <ion-title>tab5</ion-title>
+  </ion-toolbar> -->
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="user">
+ 
+  
+  <ion-row>
+    <ion-col>
+      <ion-avatar>
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+      </ion-avatar>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-label class="name">{{user.fname}} {{user.lname}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-label class="id">Tracking ID: {{user.tracking_id.code}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row class="label" style="margin-top: 20px;">
+    <ion-col size="12">
+      <ion-label>Email: {{user.email}}</ion-label>
+    </ion-col>
+     
+  </ion-row>
+  <ion-row class="label">
+    <ion-col>
+      <ion-label>Contact: {{user.contact}}</ion-label>
+    </ion-col>
+  </ion-row>
+</ng-container>
+</ion-content>

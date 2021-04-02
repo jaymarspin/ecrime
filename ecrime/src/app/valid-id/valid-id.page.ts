@@ -34,7 +34,7 @@ export class ValidIDPage implements OnInit {
    }
 
   ngOnInit() {
-  
+    // localStorage.clear()
   }
   back(){
     this.location.back()

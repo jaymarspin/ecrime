@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>My Families</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+     
+  
+    
+  
+  
+    
+  
+    <ion-item lines="full" *ngFor="let item of mytracking;index as i">
+      <ion-avatar slot="start">
+        <img [src]= "request.server + item.tracked.profile.name20" (click)="viewphoto(item.tracked.profile.name20)">
+      </ion-avatar>
+      <ion-label>
+        {{item.tracked.fname}} {{item.tracked.lname}}
+      </ion-label>
+      <ion-button color="success" (click)="callstation(item.tracked.contact)">CALL</ion-button>
+       
+    </ion-item>
+  
+  </ion-list>
+
+  <ion-button class="report-btn" color="primary" (click)="presentPopover()">Add Family</ion-button>
+  
+</ion-content>

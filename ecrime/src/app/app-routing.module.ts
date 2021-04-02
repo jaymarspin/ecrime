@@ -9,7 +9,9 @@ const routes: Routes = [
     // loadChildren: () => import('./registration/registration.module').then( m => m.RegistrationPageModule)
     // loadChildren: () => import('./selfie/selfie.module').then( m => m.SelfiePageModule)
     // loadChildren: () => import('./selfie/selfie.module').then( m => m.SelfiePageModule)
-    loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
+    // loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
+    redirectTo: "signin",
+    pathMatch: 'full'
   },
   {
     path: 'tabs',
@@ -43,6 +45,22 @@ const routes: Routes = [
   {
     path: 'approval',
     loadChildren: () => import('./approval/approval.module').then( m => m.ApprovalPageModule)
+  },
+  {
+    path: 'tab5',
+    loadChildren: () => import('./tab5/tab5.module').then( m => m.Tab5PageModule)
+  },
+  {
+    path: 'mytacking',
+    loadChildren: () => import('./mytacking/mytacking.module').then( m => m.MytackingPageModule)
+  },
+  {
+    path: 'trackingme',
+    loadChildren: () => import('./trackingme/trackingme.module').then( m => m.TrackingmePageModule)
+  },
+  {
+    path: 'request',
+    loadChildren: () => import('./request/request.module').then( m => m.RequestPageModule)
   }
 ];
 @NgModule({

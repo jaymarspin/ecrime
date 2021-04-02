@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Whos Tracking me</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+     
+  
+    
+  
+  
+    
+  
+    <ion-item lines="full" *ngFor="let item of trackingme;index as i">
+      <ion-avatar slot="start">
+        <img [src]= "request.server + item.tracker.profile.name20" (click)="viewphoto(item.tracker.profile.name20)">
+      </ion-avatar>
+      <ion-label>
+        {{item.tracker.fname}} {{item.tracker.lname}}
+      </ion-label>
+      <ion-button color="success" (click)="callstation(item.tracked.contact)">CALL</ion-button>
+       
+    </ion-item>
+  
+  </ion-list>
+
+</ion-content>

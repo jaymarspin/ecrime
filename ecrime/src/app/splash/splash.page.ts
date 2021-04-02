@@ -22,7 +22,7 @@ export class SplashPage implements OnInit {
         this.router.navigate(["tabs"],{replaceUrl: true})
       }
     }else{
-      this.router.navigate(["registration"],{replaceUrl: true})
+      this.router.navigate(["signin"],{replaceUrl: true})
     }
   }
 

@@ -58,7 +58,7 @@ export class Tab1Page implements OnInit {
 
   getCrimes(load){
     if(load == 0){
-      this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng).subscribe(res =>{
+      this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng+"&id="+localStorage.getItem("id")).subscribe(res =>{
         console.log(res)
          let result = res.json()
          this.loading.dismiss()
@@ -228,7 +228,7 @@ export class Tab1Page implements OnInit {
     this.map = new l.Map('mapId').setView([28.644800, 77.216721], 10);
     l.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution: ' '
     }).addTo(this.map);
 
 

@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Requests</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+     
+  
+    
+  
+  
+    
+  
+    <ion-item lines="full" *ngFor="let item of requests; index as i">
+      <ion-avatar slot="start">
+        <img [src]="request.server + item.user.profile.name20" (click)="viewphoto(item.user.profile.name100)">
+      </ion-avatar>
+      <ion-label>
+        {{item.user.fname}} {{item.user.lname}}  
+      </ion-label>
+      <ion-icon name="checkmark-circle-outline" (click)="presentAlertConfirm('You are about to allow this person to locate you',item.id,'allow')" slot="end"></ion-icon>
+      <ion-icon name="trash-outline" slot="end" (click)="presentAlertConfirm('You are about to remove request of this person to locate you',item.id,'delete')"></ion-icon>
+    </ion-item>
+  
+  </ion-list>
+</ion-content>

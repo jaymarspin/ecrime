@@ -51,9 +51,19 @@ export class SigninPage implements OnInit {
       password: this.password
     }
     // console.log(data)
-    this.request.postData("signin.php",data).subscribe(res =>{
-      console.log(res)
+    this.request.postData("login.php",data).subscribe(res =>{
+     
       this.result = res.json();
+      console.log(this.result)
+      if(this.result.id != "0"){
+        localStorage.setItem("id",this.result.id)
+        if(this.result.approved == "1"){
+          localStorage.setItem("step","5")
+        }else{
+          localStorage.setItem("step","4")
+        }
+        this.router.navigate(['splash'])
+      }
       // if(this.result.message == "success"){
          
       //   this.storage.set('user_id', this.result.id);

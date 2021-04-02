@@ -17,8 +17,8 @@ export class ApprovalPage implements OnInit {
     this.request.getData("get-approval.php?id="+localStorage.getItem("id")).subscribe(res =>{
        
       let result = res.json()
-
-      if(result.active == "1"){
+      console.log(res)
+      if(result.approved == "1"){
         localStorage.setItem("step","5")
         
         this.router.navigate(["tabs"],{replaceUrl: true})
