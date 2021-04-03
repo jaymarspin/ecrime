@@ -3,7 +3,7 @@ import { PopoverController } from '@ionic/angular';
 import {ReportcrimeFormComponent} from '../components/reportcrime-form/reportcrime-form.component'
 import { RequestService} from '../services/request.service'
 import { GlobalService} from '../services/global.service'
-
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -12,7 +12,7 @@ import { GlobalService} from '../services/global.service'
 export class Tab2Page implements OnInit{
   loading:any
   myreports:any
-  constructor(public global: GlobalService,public request:RequestService,public popoverController: PopoverController) {
+  constructor(public photoViewer: PhotoViewer,public global: GlobalService,public request:RequestService,public popoverController: PopoverController) {
     this.myreports = Array()
   
   }
@@ -25,6 +25,12 @@ export class Tab2Page implements OnInit{
       for(var i =0;i < result.length;i++){
         this.myreports.push(result[i])
       }
+    })
+  }
+
+  openPopUp(){
+    this.presentPopover(null).then((e) =>{
+      console.log(e)
     })
   }
  
@@ -42,6 +48,10 @@ export class Tab2Page implements OnInit{
  ngOnInit(){
    this.getCrimes()
  }
+
+ viewphoto(url){
+  this.photoViewer.show(this.request.server+url);
+}
 
 
 }

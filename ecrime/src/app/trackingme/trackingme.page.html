@@ -18,9 +18,9 @@
         <img [src]= "request.server + item.tracker.profile.name20" (click)="viewphoto(item.tracker.profile.name20)">
       </ion-avatar>
       <ion-label>
-        {{item.tracker.fname}} {{item.tracker.lname}}
+        {{item.tracker.fname}} {{item.tracker.lname}}  
       </ion-label>
-      <ion-button color="success" (click)="callstation(item.tracked.contact)">CALL</ion-button>
+      <ion-button color="success" (click)="callstation(item.tracker.contact)">CALL</ion-button>
        
     </ion-item>
   

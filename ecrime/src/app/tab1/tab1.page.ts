@@ -7,6 +7,7 @@ import { AlertController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { Toast } from '@ionic-native/toast/ngx';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -28,8 +29,10 @@ export class Tab1Page implements OnInit {
   crimeresult:any
   stationresult:any
   humanresult:any
-  constructor(private photoViewer: PhotoViewer,private callNumber: CallNumber,private geolocation: Geolocation,public alertController: AlertController,public request: RequestService,public global: GlobalService,public loadingController: LoadingController) {
-     
+  mylabel:string
+  crimes:any
+  constructor(private toast: Toast,private photoViewer: PhotoViewer,private callNumber: CallNumber,private geolocation: Geolocation,public alertController: AlertController,public request: RequestService,public global: GlobalService,public loadingController: LoadingController) {
+     this.mylabel = "Here where you are right now"
   }
 
   ngOnInit(){
@@ -57,16 +60,18 @@ export class Tab1Page implements OnInit {
     await alert.present();
   }
 
-  getCrimes(load){
+  async getCrimes(load){
     if(load == 0){
       this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng+"&id="+localStorage.getItem("id")).subscribe(res =>{
         console.log(res)
          let result = res.json()
+         
          this.loading.dismiss()
          for(var i =0;i < result.length;i++){
           this.markerdroper(result[i])
+           
          }
-  
+         this.viewtoast()
       },err =>{
         this.presentAlert(err)
         this.loading.dismiss()
@@ -74,14 +79,15 @@ export class Tab1Page implements OnInit {
     }else{
       this.presentLoading("loading...").then(() =>{
        
-        this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng).subscribe(res =>{
-          console.log(res.json())
+        this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng+"&id="+localStorage.getItem("id")).subscribe(res =>{
+          console.log(res)
            let result = res.json()
            this.loading.dismiss()
            for(var i =0;i < result.length;i++){
             this.markerdroper(result[i])
+            
            }
-    
+           this.viewtoast()
         },err =>{
           this.presentAlert(err)
           this.loading.dismiss()
@@ -93,16 +99,24 @@ export class Tab1Page implements OnInit {
 
   markerdroper(crime){
      
-     
+    
       
-     l.marker([crime.lat,crime.lng],{icon: this.customIcon,id: crime.id,crime: crime}).addTo(this.map).on('click', (e) =>{
+     let x = l.marker([crime.lat,crime.lng],{icon: this.customIcon,id: crime.id,crime: crime}).addTo(this.map).on('click', (e) =>{
       
       delete(this.stationresult)
       delete(this.humanresult)
-       console.log(e.target.options.crime)
+        
+       
       this.crimeresult = e.target.options.crime
      })
 
+     if(parseFloat(crime.distance) <= 0.5){
+       
+       
+      this.map.setView([crime.lat,crime.lng],20);
+      x.bindPopup("Warning! A crime happened near where you are!(500meter radius)").openPopup()
+    }
+    
   }
 
 
@@ -117,16 +131,17 @@ export class Tab1Page implements OnInit {
   }
 
   humanMarker(human){
-    console.log(human.tracked.location.lat)
+    // console.log(human.tracked.location.lat)
     l.marker([human.tracked.location.lat,human.tracked.location.lng],{icon: this.humanIcon,id: human.id,human: human}).addTo(this.map).on('click', (e) =>{
       delete(this.stationresult)
       delete(this.crimeresult)
        
       this.humanresult = e.target.options.human
+      // console.log(this.humanresult)
      })
   }
 
-  getStations(){
+ async getStations(){
     this.presentLoading("loading...").then(() =>{
       
       this.request.getData("get-stations.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng).subscribe(res =>{
@@ -136,7 +151,7 @@ export class Tab1Page implements OnInit {
          for(var i =0;i < result.length;i++){
           this.policemarker(result[i])
          }
-  
+         this.viewtoast()
       },err =>{
         this.presentAlert(err)
         this.loading.dismiss()
@@ -169,6 +184,16 @@ export class Tab1Page implements OnInit {
         popupAnchor: [0, 0]
         });
 
+        myicon = l.icon({
+          iconUrl: '../../../../assets/mapmarker/icons8-marker-16.png',
+          // shadowUrl: '../../../../assets/mapmarker/marker-shadow.png',
+          iconSize:     [24, 24],
+           
+          popupAnchor: [0, 0]
+          });
+
+
+        
       
    
   async locator(){
@@ -202,7 +227,12 @@ export class Tab1Page implements OnInit {
             fill: true,
             fillColor: "green",
             fillOpacity: 0.3
-           }).addTo(this.map).bindPopup("Here where you are right now");
+           }).addTo(this.map)
+
+           l.marker([this.global.address.lat, this.global.address.lng],{icon: this.myicon}).addTo(this.map).on('click', (e) =>{
+       
+           }).bindPopup(this.mylabel).openPopup();
+      
           //  l.marker([this.global.address.lat, this.global.address.lng],{icon: this.customIcon}).addTo(this.map).bindPopup("awdawd")
            this.map.invalidateSize(true) 
 
@@ -303,7 +333,7 @@ export class Tab1Page implements OnInit {
   viewphoto(url){
     this.photoViewer.show(this.request.server+url);
   }
-  getFamilies(){
+  async getFamilies(){
    
       this.presentLoading("loading...").then(() =>{
         
@@ -315,13 +345,21 @@ export class Tab1Page implements OnInit {
             this.humanMarker(result[i])
             
            }
-    
+           this.viewtoast()
         },err =>{
           this.presentAlert(err)
           this.loading.dismiss()
         })
       })
      
+  }
+
+  viewtoast(){
+    this.toast.show(`successfully loaded!`, '5000', 'center').subscribe(
+      toast => {
+        console.log(toast);
+      }
+    );
   }
 
 }

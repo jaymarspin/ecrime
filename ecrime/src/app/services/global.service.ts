@@ -5,5 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class GlobalService {
   address:any
+
+  playvideo:any = true
   constructor() { }
 }

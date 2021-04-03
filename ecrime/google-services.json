@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "771075000374",
+    "project_id": "ecrime-dbf63",
+    "storage_bucket": "ecrime-dbf63.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771075000374:android:89e358ed0c64b204bdb097",
+        "android_client_info": {
+          "package_name": "io.bords.ecrime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771075000374-crqdgprgnr4rh2jo6a3e868i0e8l860h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDM0nON9pvc39XStsxrz902D5GCOZbb1XY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "771075000374-crqdgprgnr4rh2jo6a3e868i0e8l860h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

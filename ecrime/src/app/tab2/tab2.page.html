@@ -17,10 +17,10 @@
     <ion-card-content [innerHTML]="item.description">
       
     </ion-card-content>
+    <img (click)="viewphoto(item.crimephoto.name100)" *ngIf="item.crimephoto" [src]= "request.server + item.crimephoto.name50" />
   </ion-card>
-  
- 
+
   
 
-  <ion-button class="report-btn" color="primary" (click)="presentPopover()">Report Crime</ion-button>
+  <ion-button class="report-btn" color="primary" (click)="openPopUp()">Report Crime</ion-button>
 </ion-content>

@@ -62,7 +62,7 @@ export class SigninPage implements OnInit {
         }else{
           localStorage.setItem("step","4")
         }
-        this.router.navigate(['splash'])
+        this.router.navigate(['splash'],{replaceUrl: true})
       }
       // if(this.result.message == "success"){
          
