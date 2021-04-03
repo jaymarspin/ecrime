@@ -68,7 +68,8 @@ export class ReportcrimeFormComponent implements OnInit {
       description: this.description,
       lat: this.global.address.lat,
       lng: this.global.address.lng,
-      base64image: this.base64image
+      base64image: this.base64image,
+      id: localStorage.getItem("id")
 
     }
     this.request.postData("add-crime.php",data).subscribe(res =>{
