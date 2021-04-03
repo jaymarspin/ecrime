@@ -10,7 +10,7 @@ const routes: Routes = [
     // loadChildren: () => import('./selfie/selfie.module').then( m => m.SelfiePageModule)
     // loadChildren: () => import('./selfie/selfie.module').then( m => m.SelfiePageModule)
     // loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
-    redirectTo: "signin",
+    redirectTo: "splash",
     pathMatch: 'full'
   },
   {

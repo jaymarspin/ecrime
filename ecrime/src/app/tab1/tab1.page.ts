@@ -27,6 +27,7 @@ export class Tab1Page implements OnInit {
   loading:any
   crimeresult:any
   stationresult:any
+  humanresult:any
   constructor(private photoViewer: PhotoViewer,private callNumber: CallNumber,private geolocation: Geolocation,public alertController: AlertController,public request: RequestService,public global: GlobalService,public loadingController: LoadingController) {
      
   }
@@ -97,6 +98,7 @@ export class Tab1Page implements OnInit {
      l.marker([crime.lat,crime.lng],{icon: this.customIcon,id: crime.id,crime: crime}).addTo(this.map).on('click', (e) =>{
       
       delete(this.stationresult)
+      delete(this.humanresult)
        console.log(e.target.options.crime)
       this.crimeresult = e.target.options.crime
      })
@@ -108,8 +110,19 @@ export class Tab1Page implements OnInit {
     l.marker([station.lat,station.lng],{icon: this.policeIcon,id: station.id,station: station}).addTo(this.map).on('click', (e) =>{
       
       delete(this.crimeresult)
+      delete(this.humanresult)
        
       this.stationresult = e.target.options.station
+     })
+  }
+
+  humanMarker(human){
+    console.log(human.tracked.location.lat)
+    l.marker([human.tracked.location.lat,human.tracked.location.lng],{icon: this.humanIcon,id: human.id,human: human}).addTo(this.map).on('click', (e) =>{
+      delete(this.stationresult)
+      delete(this.crimeresult)
+       
+      this.humanresult = e.target.options.human
      })
   }
 
@@ -148,6 +161,15 @@ export class Tab1Page implements OnInit {
        
       popupAnchor: [0, 0]
       });
+      humanIcon = l.icon({
+        iconUrl: '../../../../assets/mapmarker/icons8-street-view-48.png',
+        // shadowUrl: '../../../../assets/mapmarker/marker-shadow.png',
+        iconSize:     [38, 45],
+         
+        popupAnchor: [0, 0]
+        });
+
+      
    
   async locator(){
     this.presentLoading("please wait we're locating you").then(() => {
@@ -281,6 +303,25 @@ export class Tab1Page implements OnInit {
   viewphoto(url){
     this.photoViewer.show(this.request.server+url);
   }
-  
+  getFamilies(){
+   
+      this.presentLoading("loading...").then(() =>{
+        
+        this.request.getData("get-families.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng+"&id="+localStorage.getItem("id")).subscribe(res =>{
+          console.log(res.json())
+           let result = res.json()
+           this.loading.dismiss()
+           for(var i =0;i < result.length;i++){
+            this.humanMarker(result[i])
+            
+           }
+    
+        },err =>{
+          this.presentAlert(err)
+          this.loading.dismiss()
+        })
+      })
+     
+  }
 
 }
