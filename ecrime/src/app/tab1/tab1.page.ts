@@ -161,7 +161,7 @@ export class Tab1Page implements OnInit {
   }
 
   customIcon = l.icon({
-    iconUrl: '../../../../assets/mapmarker/clipart1237981.png',
+    iconUrl: '../../../../assets/mapmarker/warning.png',
     // shadowUrl: '../../../../assets/mapmarker/marker-shadow.png',
     iconSize:     [38, 45],
      
