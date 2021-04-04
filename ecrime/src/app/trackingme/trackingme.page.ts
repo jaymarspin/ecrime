@@ -21,13 +21,13 @@ export class TrackingmePage implements OnInit {
   getTrackings(){
     this.presentLoading().then(() =>{
       this.trackingme = Array()
-    this.request.getData("get-trackings.php?id="+localStorage.getItem("id")).subscribe(res =>{
+    this.request.getData("get-trackings-me.php?id="+localStorage.getItem("id")).subscribe(res =>{
       console.log(res.json())
       this.loading.dismiss()
       let result = res.json()
       for(var i =0;i < result.length;i++)
       this.trackingme.push({
-        tracker: result[i].tracked,
+        tracker: result[i].tracker,
         date_created: result[i].date_created,
         id: result[i].id
       })

@@ -4,6 +4,7 @@ import {ReportcrimeFormComponent} from '../components/reportcrime-form/reportcri
 import { RequestService} from '../services/request.service'
 import { GlobalService} from '../services/global.service'
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { LoadingController } from '@ionic/angular';
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -12,7 +13,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 export class Tab2Page implements OnInit{
   loading:any
   myreports:any
-  constructor(public photoViewer: PhotoViewer,public global: GlobalService,public request:RequestService,public popoverController: PopoverController) {
+  constructor(private loadingController: LoadingController,public photoViewer: PhotoViewer,public global: GlobalService,public request:RequestService,public popoverController: PopoverController) {
     this.myreports = Array()
   
   }
@@ -20,11 +21,14 @@ export class Tab2Page implements OnInit{
   getCrimes(){
     this.myreports = Array()
     this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng+"&id="+localStorage.getItem("id")).subscribe(res =>{
-      console.log(res)
+      
+      this.loading.dismiss()
       let result = res.json()
       for(var i =0;i < result.length;i++){
         this.myreports.push(result[i])
       }
+    },err =>{
+      this.loading.dismiss()
     })
   }
 
@@ -46,11 +50,27 @@ export class Tab2Page implements OnInit{
     return await popover.present();
   }
  ngOnInit(){
-   this.getCrimes()
+   this.presentLoading("loading...").then(() =>{
+    this.getCrimes()
+   })
+   
  }
 
  viewphoto(url){
   this.photoViewer.show(this.request.server+url);
+}
+
+
+
+async presentLoading(message:string) {
+  this.loading = await this.loadingController.create({
+    cssClass: 'my-custom-class',
+    message: message,
+     
+  });
+  await this.loading.present();
+
+  
 }
 
 

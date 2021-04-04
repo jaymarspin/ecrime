@@ -63,31 +63,41 @@ export class ReportcrimeFormComponent implements OnInit {
 
   submit(){
     console.log(this.global.address)
-    let data = {
-      crime_type: this.crimetype,
-      description: this.description,
-      lat: this.global.address.lat,
-      lng: this.global.address.lng,
-      base64image: this.base64image,
-      id: localStorage.getItem("id")
-
+    if(this.crimetype && this.description){
+      this.presentLoading().then(() =>{
+        let data = {
+          crime_type: this.crimetype,
+          description: this.description,
+          lat: this.global.address.lat,
+          lng: this.global.address.lng,
+          base64image: this.base64image,
+          id: localStorage.getItem("id")
+    
+        }
+        this.request.postData("add-crime.php",data).subscribe(res =>{
+           console.log(res)
+          console.log(res.json())
+          let result = res.json()
+          if(result.message == 'success'){
+            this.presentAlert("success! your report is on process now")
+          }
+        },err=>{
+          this.presentAlert(err)
+        })
+      })
+      
+    }else{
+      this.presentAlert("Please complete the fields")
     }
-    this.request.postData("add-crime.php",data).subscribe(res =>{
-       console.log(res)
-      console.log(res.json())
-      let result = res.json()
-      if(result.message == 'success'){
-        this.presentAlert()
-      }
-    })
+    
   }
 
-  async presentAlert() {
+  async presentAlert(message) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Success',
       subHeader: '',
-      message: 'Youre query is now on process',
+      message: message,
       buttons: ['OK']
     });
 
