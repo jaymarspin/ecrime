@@ -11,7 +11,8 @@
   <ion-row>
     <ion-col>
       <ion-avatar>
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+        <img *ngIf="user.profile.name50" [src]="request.server + user.profile.name50">
+        <img *ngIf="!user.profile.name50" src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" />
       </ion-avatar>
     </ion-col>
   </ion-row>

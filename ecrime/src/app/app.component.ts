@@ -21,6 +21,7 @@ export class AppComponent {
         id: localStorage.getItem("id"),
         token: token
       }
+      console.log(token)
       this.request.postData("save_fcm_token.php",data).subscribe(res =>{
         console.log(res)
       })

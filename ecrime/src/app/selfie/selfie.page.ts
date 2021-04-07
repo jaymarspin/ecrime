@@ -117,8 +117,7 @@ export class SelfiePage implements OnInit {
   async presentLoading() {
     this.loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
-      message: 'Submitting',
-      duration: 2000
+      message: 'Submitting', 
     });
     await this.loading.present();
 

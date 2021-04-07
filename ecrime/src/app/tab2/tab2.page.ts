@@ -20,8 +20,8 @@ export class Tab2Page implements OnInit{
 
   getCrimes(){
     this.myreports = Array()
-    this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng+"&id="+localStorage.getItem("id")).subscribe(res =>{
-      
+    this.request.getData("get-myreported-crime.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng+"&id="+localStorage.getItem("id")).subscribe(res =>{
+      console.log(res.json())
       this.loading.dismiss()
       let result = res.json()
       for(var i =0;i < result.length;i++){

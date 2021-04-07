@@ -31,8 +31,7 @@ export class AddtrackComponent implements OnInit {
   async presentLoading() {
     this.loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
-      message: 'Please wait...',
-      duration: 2000
+      message: 'Please wait...', 
     });
     await this.loading.present();
 

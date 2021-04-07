@@ -15,7 +15,8 @@
   
     <ion-item lines="full" *ngFor="let item of trackingme;index as i">
       <ion-avatar slot="start">
-        <img [src]= "request.server + item.tracker.profile.name20" (click)="viewphoto(item.tracker.profile.name20)">
+        <img *ngIf="item.tracker.profile.name20" [src]= "request.server + item.tracker.profile.name20" (click)="viewphoto(item.tracker.profile.name20)">
+        <img *ngIf="!item.tracker.profile.name20" src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" />
       </ion-avatar>
       <ion-label>
         {{item.tracker.fname}} {{item.tracker.lname}}  
