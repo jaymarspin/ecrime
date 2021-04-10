@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output,EventEmitter } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { RequestService } from '../../services/request.service'
 import { LoadingController } from '@ionic/angular';
 import { GlobalService} from '../../services/global.service'
-import { AlertController } from '@ionic/angular';
+import { AlertController,PopoverController } from '@ionic/angular';
 import { Base64 } from '@ionic-native/base64/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { Toast } from '@ionic-native/toast/ngx';
 
 @Component({
   selector: 'app-reportcrime-form',
@@ -15,15 +16,18 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
   styleUrls: ['./reportcrime-form.component.scss'],
 })
 export class ReportcrimeFormComponent implements OnInit {
+  @Output() typeChanged = new EventEmitter<string>();
   loading:any
   crimetype:any
   description:any
   base64image:any
   imgsrc:any
   uri:any
-  constructor(private photoViewer: PhotoViewer,private webview: WebView,private filePath: FilePath,private base64: Base64,public alertController: AlertController,public global: GlobalService,public loadingController: LoadingController,private camera: Camera,public request: RequestService) { }
+  constructor(private popoverController: PopoverController,private photoViewer: PhotoViewer,private webview: WebView,private filePath: FilePath,private base64: Base64,public alertController: AlertController,public global: GlobalService,public loadingController: LoadingController,private camera: Camera,public request: RequestService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
 
   takephoto(){
     const options: CameraOptions = {
@@ -62,6 +66,7 @@ export class ReportcrimeFormComponent implements OnInit {
   }
 
   submit(){
+    // this.popoverController.dismiss();
     console.log(this.global.address)
     if(this.crimetype && this.description){
       this.presentLoading().then(() =>{
@@ -78,10 +83,16 @@ export class ReportcrimeFormComponent implements OnInit {
            console.log(res)
           console.log(res.json())
           let result = res.json()
+          this.loading.dismiss()
           if(result.message == 'success'){
-            this.presentAlert("success! your report is on process now")
+            // Toast
+            // this.presentAlert("success! your report is on process now")
+            this.popoverController.dismiss({data: "success"});
+             
+            
           }
         },err=>{
+          this.loading.dismiss()
           this.presentAlert(err)
         })
       })

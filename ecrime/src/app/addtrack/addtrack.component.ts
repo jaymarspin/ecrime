@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RequestService } from '../services/request.service'
 import { LoadingController } from '@ionic/angular';
 import { GlobalService} from '../services/global.service'
-import { AlertController } from '@ionic/angular';
+import { AlertController,PopoverController} from '@ionic/angular';
+ 
 @Component({
   selector: 'app-addtrack',
   templateUrl: './addtrack.component.html',
@@ -11,9 +12,11 @@ import { AlertController } from '@ionic/angular';
 export class AddtrackComponent implements OnInit {
   trackingcode:any
   loading:any
-  constructor(public loadingController: LoadingController,public alertController: AlertController,public request: RequestService,public global: GlobalService) { }
+  constructor(private popoverController: PopoverController,public loadingController: LoadingController,public alertController: AlertController,public request: RequestService,public global: GlobalService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
 
 
   async presentAlert(message) {

@@ -5,6 +5,7 @@ import { RequestService} from '../services/request.service'
 import { GlobalService} from '../services/global.service'
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { LoadingController } from '@ionic/angular';
+import {MapComponent} from '../map/map.component'
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -42,12 +43,35 @@ export class Tab2Page implements OnInit{
   async presentPopover(ev: any) {
     console.log(ev)
     const popover = await this.popoverController.create({
-      component: ReportcrimeFormComponent,
+      component: MapComponent,
+      cssClass: 'my-custom-class',
+      event: ev,
+      translucent: true
+    });
+     await popover.present();
+     return popover.onDidDismiss().then(
+      (data: any) => {
+        if (data) {
+          console.log(data)
+          this.openMap(ev)
+          if(data.data == "success"){
+           
+          }
+          // trigger here the method dependind on the popover response
+        }
+      })
+  }
+
+  async openMap(ev: any) {
+    console.log(ev)
+    const popover = await this.popoverController.create({
+      component: MapComponent,
       cssClass: 'my-custom-class',
       event: ev,
       translucent: true
     });
     return await popover.present();
+    
   }
  ngOnInit(){
    this.presentLoading("loading...").then(() =>{

@@ -22,6 +22,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { DocumentScanner } from '@ionic-native/document-scanner/ngx/';
 import { Toast } from '@ionic-native/toast/ngx';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
