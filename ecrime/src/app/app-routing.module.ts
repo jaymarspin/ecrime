@@ -61,6 +61,10 @@ const routes: Routes = [
   {
     path: 'request',
     loadChildren: () => import('./request/request.module').then( m => m.RequestPageModule)
+  },
+  {
+    path: 'mapping',
+    loadChildren: () => import('./mapping/mapping.module').then( m => m.MappingPageModule)
   }
 ];
 @NgModule({

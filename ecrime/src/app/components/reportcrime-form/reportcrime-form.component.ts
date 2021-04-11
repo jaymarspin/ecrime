@@ -80,8 +80,8 @@ export class ReportcrimeFormComponent implements OnInit {
     
         }
         this.request.postData("add-crime.php",data).subscribe(res =>{
-           console.log(res)
-          console.log(res.json())
+         
+          console.log(res)
           let result = res.json()
           this.loading.dismiss()
           if(result.message == 'success'){

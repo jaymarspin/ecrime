@@ -6,6 +6,7 @@ import { GlobalService} from '../services/global.service'
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { LoadingController } from '@ionic/angular';
 import {MapComponent} from '../map/map.component'
+import { Router } from '@angular/router'
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -14,7 +15,7 @@ import {MapComponent} from '../map/map.component'
 export class Tab2Page implements OnInit{
   loading:any
   myreports:any
-  constructor(private loadingController: LoadingController,public photoViewer: PhotoViewer,public global: GlobalService,public request:RequestService,public popoverController: PopoverController) {
+  constructor(private router :Router,private loadingController: LoadingController,public photoViewer: PhotoViewer,public global: GlobalService,public request:RequestService,public popoverController: PopoverController) {
     this.myreports = Array()
   
   }
@@ -76,6 +77,7 @@ export class Tab2Page implements OnInit{
  ngOnInit(){
    this.presentLoading("loading...").then(() =>{
     this.getCrimes()
+    // this.router.navigate(["mapping"])
    })
    
  }

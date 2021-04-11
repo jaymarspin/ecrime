@@ -20,16 +20,16 @@ export class MapComponent implements OnInit {
      
     popupAnchor: [0, 0]
     });
-
+    marker:any
   async leafletMap() {
     // In setView add latLng and zoom
-    this.map = new l.Map('mapId').setView([28.644800, 77.216721], 10);
+    this.map = new l.Map('mapping').setView([28.644800, 77.216721], 10);
     l.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: ' '
     }).addTo(this.map);
 
-    l.marker([this.global.address.lat, this.global.address.lng],{icon: this.customIcon}).addTo(this.map).on('click', (e) =>{
+    this.marker = l.marker([this.global.address.lat, this.global.address.lng],{icon: this.customIcon,draggable:'true'}).addTo(this.map).on('click', (e) =>{
        
     }).bindPopup("Drag me to where the crime happened").openPopup();
 
@@ -38,10 +38,15 @@ export class MapComponent implements OnInit {
 
   
   }
+  submit(){
+    console.log(this.marker._latlng)
+  }
 
   ionViewWillEnter(){
     this.leafletMap().then(() =>{
-      this.map.invalidateSize(true) 
+      setTimeout(() => {
+        this.map.invalidateSize(true) 
+      }, 200);
     })
   }
 
