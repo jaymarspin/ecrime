@@ -36,15 +36,15 @@ export class Tab2Page implements OnInit{
 
   openPopUp(){
     this.presentPopover(null).then((e) =>{
-      console.log(e)
+       
     })
   }
  
 
   async presentPopover(ev: any) {
-    console.log(ev)
+     
     const popover = await this.popoverController.create({
-      component: MapComponent,
+      component: ReportcrimeFormComponent,
       cssClass: 'my-custom-class',
       event: ev,
       translucent: true
@@ -53,10 +53,13 @@ export class Tab2Page implements OnInit{
      return popover.onDidDismiss().then(
       (data: any) => {
         if (data) {
-          console.log(data)
-          this.openMap(ev)
-          if(data.data == "success"){
            
+          
+          if(this.global.crimereported == "success"){
+            
+            this.openMap(ev)
+            delete(this.global.crimereported)
+            // delete(this.global.crime_id)
           }
           // trigger here the method dependind on the popover response
         }
@@ -64,7 +67,7 @@ export class Tab2Page implements OnInit{
   }
 
   async openMap(ev: any) {
-    console.log(ev)
+     
     const popover = await this.popoverController.create({
       component: MapComponent,
       cssClass: 'my-custom-class',

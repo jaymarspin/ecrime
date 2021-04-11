@@ -63,7 +63,7 @@ export class Tab1Page implements OnInit {
   async getCrimes(load){
     if(load == 0){
       this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng+"&id="+localStorage.getItem("id")).subscribe(res =>{
-        console.log(res)
+        console.log(res.json())
          let result = res.json()
          
          this.loading.dismiss()
@@ -322,6 +322,7 @@ export class Tab1Page implements OnInit {
   close(){
     delete(this.crimeresult)
     delete(this.stationresult)
+    delete(this.humanresult)
   }
 
   async callstation(number){

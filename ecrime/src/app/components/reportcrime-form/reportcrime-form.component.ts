@@ -7,8 +7,7 @@ import { AlertController,PopoverController } from '@ionic/angular';
 import { Base64 } from '@ionic-native/base64/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-import { Toast } from '@ionic-native/toast/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx'; 
 
 @Component({
   selector: 'app-reportcrime-form',
@@ -83,11 +82,15 @@ export class ReportcrimeFormComponent implements OnInit {
          
           console.log(res)
           let result = res.json()
+         
           this.loading.dismiss()
           if(result.message == 'success'){
             // Toast
             // this.presentAlert("success! your report is on process now")
+            this.global.crimereported = "success"
+            this.global.crime_id = result.id 
             this.popoverController.dismiss({data: "success"});
+
              
             
           }

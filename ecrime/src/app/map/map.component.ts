@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as l from 'leaflet';
 import {GlobalService } from '../services/global.service'
+import { RequestService } from '../services/request.service'
+import { AlertController,PopoverController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -8,7 +11,8 @@ import {GlobalService } from '../services/global.service'
 })
 export class MapComponent implements OnInit {
   map: l.Map;
-  constructor(public global: GlobalService) { }
+  loading:any
+  constructor(public loadingController: LoadingController,public alertController: AlertController,private popoverController: PopoverController,public global: GlobalService,public request: RequestService) { }
 
   ngOnInit() {
     
@@ -38,9 +42,69 @@ export class MapComponent implements OnInit {
 
   
   }
+  // submit(){
+  //   console.log(this.marker._latlng)
+  // }
+
   submit(){
-    console.log(this.marker._latlng)
+    // this.popoverController.dismiss();
+    console.log(this.global.address)
+ 
+      this.presentLoading().then(() =>{
+        let data = {
+          
+          lat: this.global.address.lat,
+          lng: this.global.address.lng,
+          id: this.global.crime_id
+          
+    
+        }
+        this.request.postData("add-location.php",data).subscribe(res =>{
+          console.log(res)
+           
+          let result = res.json()
+          this.loading.dismiss()
+          if(result.message == 'success'){
+            // Toast
+            // this.presentAlert("success! your report is on process now")
+            delete(this.global.crime_id)
+            this.presentAlert("success! your report is on process now")
+            this.popoverController.dismiss({data: "success"});
+             
+            
+          }
+        },err=>{
+          this.loading.dismiss()
+          this.presentAlert(err)
+        })
+      })
+      
+  
+    
   }
+
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...', 
+    });
+    await this.loading.present();
+
+   
+  }
+
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Success',
+      subHeader: '',
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+ 
 
   ionViewWillEnter(){
     this.leafletMap().then(() =>{
