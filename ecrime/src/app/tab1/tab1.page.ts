@@ -109,8 +109,23 @@ export class Tab1Page implements OnInit {
        
       this.crimeresult = e.target.options.crime
      })
+     console.log(crime.radius)
 
-     if(parseFloat(crime.distance) <= 0.5){
+     l.circle([crime.lat,crime.lng],{
+      radius: crime.radius.radius,
+      stroke: true,
+      color: 'black',
+      opacity: 1,
+      weight: 1,
+      fill: true,
+      fillColor: "red",
+      fillOpacity: 0.3,id: crime.id,crime: crime
+     }).addTo(this.map).on('click', (e) =>{
+      this.crimeresult = e.target.options.crime
+       
+     })
+     let tmp = parseFloat(crime.radius.radius) * 0.001
+     if(parseFloat(crime.distance) <= tmp){
        
        
       this.map.setView([crime.lat,crime.lng],20);
@@ -163,7 +178,7 @@ export class Tab1Page implements OnInit {
   customIcon = l.icon({
     iconUrl: '../../../../assets/mapmarker/warning.png',
     // shadowUrl: '../../../../assets/mapmarker/marker-shadow.png',
-    iconSize:     [38, 45],
+    iconSize:     [27, 26],
      
     popupAnchor: [0, 0]
     });
@@ -207,6 +222,7 @@ export class Tab1Page implements OnInit {
           lat: resp.coords.latitude,
           lng: resp.coords.longitude
         }
+        console.log(this.global.address)
 
         this.loading.dismiss()
     
@@ -225,7 +241,7 @@ export class Tab1Page implements OnInit {
             opacity: 1,
             weight: 1,
             fill: true,
-            fillColor: "green",
+            fillColor: "red",
             fillOpacity: 0.3
            }).addTo(this.map)
 
