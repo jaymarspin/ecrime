@@ -65,6 +65,10 @@ const routes: Routes = [
   {
     path: 'mapping',
     loadChildren: () => import('./mapping/mapping.module').then( m => m.MappingPageModule)
+  },
+  {
+    path: 'crime-further',
+    loadChildren: () => import('./crime-further/crime-further.module').then( m => m.CrimeFurtherPageModule)
   }
 ];
 @NgModule({

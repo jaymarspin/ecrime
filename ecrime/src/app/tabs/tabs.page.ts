@@ -1,16 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Tab1Page } from '../tab1/tab1.page'
 import { Tab2Page } from '../tab2/tab2.page' 
 import { Tab3Page } from '../tab3/tab3.page'
-import {GlobalService} from '../services/global.service'
+import { GlobalService} from '../services/global.service'
+import { RequestService} from '../services/request.service'  
 import { Router } from '@angular/router'
+import { Shake } from '@ionic-native/shake/ngx';
+import { Autostart } from '@ionic-native/autostart/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { Toast } from '@ionic-native/toast/ngx';
 @Component({
 
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage {
+export class TabsPage implements OnInit {
   tab1 = Tab1Page
   tab2 = Tab2Page
   tab3 = Tab3Page
@@ -21,8 +26,27 @@ export class TabsPage {
   };
 
   swipeable:any 
-  constructor(private router : Router,public global: GlobalService) {
+  constructor(public request: RequestService,private toast: Toast,private backgroundMode: BackgroundMode,private autostart: Autostart,private shake: Shake,private router : Router,public global: GlobalService) {
     this.swipeable = false
+  }
+  ngOnInit(){
+    this.autostart.enable();
+ 
+
+   
+    const watch = this.shake.startWatch(60).subscribe(() => {
+      let data = {
+        id: localStorage.getItem("id"),
+        lat: this.global.address.lat,
+        lng: this.global.address.lng
+      }
+
+      this.request.postData("add-emergency.php",data).subscribe(res =>{
+        console.log(res)
+      })
+      });
+    
+     
   }
 
   tabChange(e){
@@ -38,6 +62,9 @@ export class TabsPage {
   ionViewWillEnter() { 
     if(!localStorage.getItem("id")){
       this.router.navigate([""],{replaceUrl: true})
+    }else{
+
+      
     }
   }
 }

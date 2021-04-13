@@ -10,5 +10,6 @@ export class GlobalService {
 
   crime_id
   crimereported
+  crime:any
   constructor() { }
 }

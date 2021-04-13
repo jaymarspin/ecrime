@@ -1,0 +1,35 @@
+title{
+    position: relative;
+    color: #333;
+    font-weight: bold;
+     
+    font-size: 25px;
+}
+ion-text{
+  color: #333;
+  position: relative;
+  
+
+}.time{
+  position: relative;
+  font-size: 13px;
+  color: #888;
+}
+img{
+  max-height: 250px;
+  max-width: 90%;
+  display: block;
+  margin: auto;
+ 
+}.action-btn{
+   position: fixed;
+   bottom: 20px; 
+   width: 100%;
+   height: auto;
+   overflow: hidden;
+   z-index: 9999;
+
+}.distance-wrapper{
+ position: relative;
+ font-weight: bold;
+}

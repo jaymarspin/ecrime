@@ -22,7 +22,9 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { DocumentScanner } from '@ionic-native/document-scanner/ngx/';
 import { Toast } from '@ionic-native/toast/ngx';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
-
+import { Shake } from '@ionic-native/shake/ngx';
+import { Autostart } from '@ionic-native/autostart/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -35,8 +37,10 @@ import { FirebaseX } from '@ionic-native/firebase-x/ngx';
     PhotoViewer,  
     DocumentScanner,
     Toast,
-    FirebaseX
-    
+    FirebaseX,
+    Shake,
+    Autostart,
+    BackgroundMode
     ,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }],
   bootstrap: [AppComponent],
 })

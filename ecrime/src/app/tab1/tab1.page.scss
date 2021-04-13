@@ -41,6 +41,10 @@
      height: auto;
      overflow: hidden;
      z-index: 9999;
+     img{
+       width: 20px;
+       height: 20px;
+     }
 
  }.distance-wrapper{
    position: relative;

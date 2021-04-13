@@ -8,6 +8,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { Toast } from '@ionic-native/toast/ngx';
+import { Router } from '@angular/router'
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -31,7 +32,7 @@ export class Tab1Page implements OnInit {
   humanresult:any
   mylabel:string
   crimes:any
-  constructor(private toast: Toast,private photoViewer: PhotoViewer,private callNumber: CallNumber,private geolocation: Geolocation,public alertController: AlertController,public request: RequestService,public global: GlobalService,public loadingController: LoadingController) {
+  constructor(private router: Router,private toast: Toast,private photoViewer: PhotoViewer,private callNumber: CallNumber,private geolocation: Geolocation,public alertController: AlertController,public request: RequestService,public global: GlobalService,public loadingController: LoadingController) {
      this.mylabel = "Here where you are right now"
   }
 
@@ -78,7 +79,7 @@ export class Tab1Page implements OnInit {
       })
     }else{
       this.presentLoading("loading...").then(() =>{
-       
+        
         this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng+"&id="+localStorage.getItem("id")).subscribe(res =>{
           console.log(res)
            let result = res.json()
@@ -101,7 +102,7 @@ export class Tab1Page implements OnInit {
      
     
       
-     let x = l.marker([crime.lat,crime.lng],{icon: this.customIcon,id: crime.id,crime: crime}).addTo(this.map).on('click', (e) =>{
+     let x = l.marker([crime.crimeLocation.lat,crime.crimeLocation.lng],{icon: this.customIcon,id: crime.id,crime: crime}).addTo(this.map).on('click', (e) =>{
       
       delete(this.stationresult)
       delete(this.humanresult)
@@ -111,7 +112,7 @@ export class Tab1Page implements OnInit {
      })
      console.log(crime.radius)
 
-     l.circle([crime.lat,crime.lng],{
+     l.circle([crime.crimeLocation.lat,crime.crimeLocation.lng],{
       radius: crime.radius.radius,
       stroke: true,
       color: 'black',
@@ -126,9 +127,9 @@ export class Tab1Page implements OnInit {
      })
      let tmp = parseFloat(crime.radius.radius) * 0.001
      if(parseFloat(crime.distance) <= tmp){
+       this.crimeresult = crime
        
-       
-      this.map.setView([crime.lat,crime.lng],20);
+      this.map.setView([crime.crimeLocation.lat,crime.crimeLocation.lng],20);
       x.bindPopup("Warning! A crime happened near where you are!(500meter radius)").openPopup()
     }
     
@@ -234,16 +235,16 @@ export class Tab1Page implements OnInit {
   
           
           
-         l.circle([this.global.address.lat, this.global.address.lng],{
-            radius: 500,
-            stroke: true,
-            color: 'black',
-            opacity: 1,
-            weight: 1,
-            fill: true,
-            fillColor: "red",
-            fillOpacity: 0.3
-           }).addTo(this.map)
+        //  l.circle([this.global.address.lat, this.global.address.lng],{
+        //     radius: 500,
+        //     stroke: true,
+        //     color: 'black',
+        //     opacity: 1,
+        //     weight: 1,
+        //     fill: true,
+        //     fillColor: "red",
+        //     fillOpacity: 0.3
+        //    }).addTo(this.map)
 
            l.marker([this.global.address.lat, this.global.address.lng],{icon: this.myicon}).addTo(this.map).on('click', (e) =>{
        
@@ -377,6 +378,11 @@ export class Tab1Page implements OnInit {
         console.log(toast);
       }
     );
+  }
+
+  learnmore(){
+    this.global.crime = this.crimeresult
+    this.router.navigate(["crime-further"])
   }
 
 }

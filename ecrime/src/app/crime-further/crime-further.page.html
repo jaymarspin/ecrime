@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="crimeresult">
+    <ion-row>
+      <ion-col size="12">
+        <ion-label class="title">
+          {{crimeresult.crime_type}}
+        </ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <span class="time">{{crimeresult.timelapse}}</span>
+
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-text>
+          {{crimeresult.description}}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    
+    <ion-row>
+      <ion-col size="12">
+        <img (click)="viewphoto(crimeresult.crimephoto.name100)" [src] = "request.server + crimeresult.crimephoto.name50" />
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+         <ion-label class="distance-wrapper">Crime distance: {{crimeresult.distance}} kilometer away</ion-label>
+      </ion-col>
+      
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-label>
+          <strong>Nearest Police Station</strong>
+        </ion-label>
+      </ion-col>
+    </ion-row>
+    <ng-container *ngIf="stationresult">
+    
+    <ion-row>
+      <ion-col size="12">
+        <ion-label class="title">
+          Police station: {{stationresult.station.station}}
+        </ion-label>
+      </ion-col>
+    </ion-row>
+    
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-text>
+         Address: {{stationresult.station.address}}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-text>
+         Contact Num: {{stationresult.station.contact}}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+         <ion-label class="distance-wrapper">Station distance: {{stationresult.distance}} kilometer</ion-label>
+      </ion-col>
+      <ion-col size="3"> 
+     </ion-col>
+      <ion-col size="3">
+        <ion-button color="success" (click)="callstation(stationresult.station.contact)">Call</ion-button>
+     </ion-col>
+      
+    </ion-row>
+  </ng-container>
+  <ion-row style="margin-top: 20px;">
+    <ion-col size="12">
+      <ion-text>
+        Info kit to help you stay safe
+      </ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+        
+  <iframe *ngIf="global.playvideo" id="youtube_player" class="yt_player_iframe"  style="height: 100vh;width: 100%;" [src]="src | safe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+ 
+    </ion-col>
+  </ion-row>
+  </ion-grid>
+</ion-content>
