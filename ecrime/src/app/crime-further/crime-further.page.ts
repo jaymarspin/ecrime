@@ -29,7 +29,7 @@ export class CrimeFurtherPage implements OnInit {
     this.crimeresult = this.global.crime
     this.presentLoading("loading...").then(() =>{
       this.request.getData("get-near-station.php?lat="+this.crimeresult.crimeLocation.lat+"&lng="+this.crimeresult.crimeLocation.lng).subscribe(res =>{
-        console.log(res.json())
+        console.log(res)
         let result = res.json()
         this.stationresult = result
         this.loading.dismiss()
