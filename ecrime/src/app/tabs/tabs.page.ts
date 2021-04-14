@@ -9,6 +9,7 @@ import { Shake } from '@ionic-native/shake/ngx';
 import { Autostart } from '@ionic-native/autostart/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { Toast } from '@ionic-native/toast/ngx';
+import Swal from 'sweetalert2'
 @Component({
 
   selector: 'app-tabs',
@@ -30,7 +31,8 @@ export class TabsPage implements OnInit {
     this.swipeable = false
   }
   ngOnInit(){
-    this.autostart.enable();
+
+    
  
 
    
@@ -40,10 +42,29 @@ export class TabsPage implements OnInit {
         lat: this.global.address.lat,
         lng: this.global.address.lng
       }
-
-      this.request.postData("add-emergency.php",data).subscribe(res =>{
-        console.log(res)
+      let timerInterval
+      Swal.fire({
+        title: 'alerting people nearby',
+        html: '',
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          // Swal.showLoading()
+          this.request.postData("add-emergency.php",data).subscribe(res =>{
+            console.log(res)
+          })
+        },
+        willClose: () => {
+          clearInterval(timerInterval)
+        }
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+         alert("Emergency successfully broadcast")
+        }
       })
+
+      
       });
     
      
