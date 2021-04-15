@@ -48,13 +48,13 @@ export class MapComponent implements OnInit {
 
   submit(){
     // this.popoverController.dismiss();
-    console.log(this.global.address)
+     
  
       this.presentLoading().then(() =>{
         let data = {
           
-          lat: this.global.address.lat,
-          lng: this.global.address.lng,
+          lat: this.marker._latlng.lat,
+          lng: this.marker._latlng.lng,
           id: this.global.crime_id
           
     

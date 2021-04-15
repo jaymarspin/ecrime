@@ -68,7 +68,9 @@ export class Tab1Page implements OnInit {
          let result = res.json()
          
          this.loading.dismiss()
+         console.log(result.length)
          for(var i =0;i < result.length;i++){
+           console.log("awdadwd")
           this.markerdroper(result[i])
            
          }
@@ -81,7 +83,7 @@ export class Tab1Page implements OnInit {
       this.presentLoading("loading...").then(() =>{
         
         this.request.getData("get-crimes.php?lat="+this.global.address.lat+"&lng="+this.global.address.lng+"&id="+localStorage.getItem("id")).subscribe(res =>{
-          console.log(res)
+          console.log(res.json())
            let result = res.json()
            this.loading.dismiss()
            for(var i =0;i < result.length;i++){
@@ -99,21 +101,30 @@ export class Tab1Page implements OnInit {
   }
 
   markerdroper(crime){
-     
-    
+    delete(this.stationresult)
+    delete(this.humanresult)
+      let tmplat = crime.lat
+      let tmplng = crime.lng
+      if(crime.crimeLocation){
+         tmplat = crime.crimeLocation.lat
+         tmplng = crime.crimeLocation.lng
+      }
+     console.log(crime)
       
-     let x = l.marker([crime.crimeLocation.lat,crime.crimeLocation.lng],{icon: this.customIcon,id: crime.id,crime: crime}).addTo(this.map).on('click', (e) =>{
+     let x = l.marker([tmplat,tmplng],{icon: this.customIcon,id: crime.id,crime: crime}).addTo(this.map).on('click', (e) =>{
       
-      delete(this.stationresult)
-      delete(this.humanresult)
+      
         
        
       this.crimeresult = e.target.options.crime
      })
      console.log(crime.radius)
-
-     l.circle([crime.crimeLocation.lat,crime.crimeLocation.lng],{
-      radius: crime.radius.radius,
+     let radius = 300
+     if(crime.radius.radius){
+      radius = crime.radius.radius
+     }
+     l.circle([tmplat,tmplng],{
+      radius: radius,
       stroke: true,
       color: 'black',
       opacity: 1,
